@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4: Case Management Systems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1000px;
+            padding: 40px;
+            text-align: center;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            font-weight: 800;
+            color: #6366f1;
+        }
+
+        h2 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        h3 {
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        ul {
+            list-style: none;
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        li {
+            font-size: 1.3em;
+            margin: 15px 0;
+            padding: 20px 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #10b981;
+            transition: all 0.3s ease;
+        }
+
+        li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .column {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .good {
+            border-left: 4px solid #10b981;
+        }
+
+        .bad {
+            border-left: 4px solid #ef4444;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        button {
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #5b5df1;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -3px rgba(99, 102, 241, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #64748b;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .market-players {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .player {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .player:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .activity-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .vs-comparison {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 30px 0;
+        }
+
+        .price-tag {
+            font-size: 2em;
+            padding: 30px;
+            background: #f1f5f9;
+            border-radius: 16px;
+            border: 3px solid #10b981;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .vs {
+            font-size: 2.5em;
+            font-weight: 800;
+            color: #6366f1;
+        }
+
+        .good-news {
+            color: #10b981;
+        }
+
+        .bad-news {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">7</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Module 4</h1>
+            <h2>Case Management</h2>
+            <p class="subtitle">Mini-Lecture & Discussion</p>
+        </div>
+
+        <!-- Slide 2: Essential Functions -->
+        <div class="slide">
+            <h2>Essential Functions</h2>
+            <ul>
+                <li><strong>Client/Contact Management:</strong> Who are we working with?</li>
+                <li><strong>Matter/Case Management:</strong> What work are we doing?</li>
+                <li><strong>Time Tracking:</strong> How much time did we spend?</li>
+                <li><strong>Billing & Accounting:</strong> How do we get paid?</li>
+                <li><strong>Document Management:</strong> Where is everything stored?</li>
+                <li><strong>Calendar & Deadlines:</strong> What's coming up?</li>
+                <li><strong>Communication:</strong> How do we stay in touch with clients?</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: Old vs New Way -->
+        <div class="slide">
+            <h2>Evolution of Legal Tech</h2>
+            <div class="two-column">
+                <div class="column">
+                    <h3>Old Way (Pre-2008)</h3>
+                    <ul>
+                        <li>Word for documents</li>
+                        <li>Excel for tracking</li>
+                        <li>QuickBooks for billing</li>
+                        <li>Outlook for email/calendar</li>
+                        <li>Manual data entry between systems</li>
+                        <li>No integration</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>New Way (Post-2008)</h3>
+                    <ul>
+                        <li>Clio launches as "Themis Solutions"</li>
+                        <li>First cloud-based integrated platform</li>
+                        <li>All functions in one system</li>
+                        <li>Data flows automatically</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Market Consolidation -->
+        <div class="slide">
+            <h2>Market Consolidation</h2>
+            <p class="subtitle">From robust marketplace to <span class="highlight">6 ownership groups</span></p>
+            <div class="market-players">
+                <div class="player"><strong>Clio</strong><br>($900M recent funding)</div>
+                <div class="player"><strong>AffiniPay</strong><br>(MyCase, LawPay)</div>
+                <div class="player"><strong>ProfitSolv</strong><br>(Rocket Matter, etc)</div>
+                <div class="player"><strong>Paradigm</strong><br>(Practice Panther, etc)</div>
+                <div class="player"><strong>Caret</strong><br>(Christian Beck/ATI)</div>
+                <div class="player"><strong>Smokeball</strong><br>(Australian Tech Investors)</div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Consolidation Impact -->
+        <div class="slide">
+            <h2>Consolidation Impact</h2>
+            <div class="two-column">
+                <div class="column good">
+                    <h3 class="good-news">✅ Good News</h3>
+                    <ul>
+                        <li>More resources for development</li>
+                        <li>Better customer support</li>
+                        <li>Advanced features</li>
+                    </ul>
+                </div>
+                <div class="column bad">
+                    <h3 class="bad-news">❌ Bad News</h3>
+                    <ul>
+                        <li>Reduced competition</li>
+                        <li>Higher prices for lawyers</li>
+                        <li>Fewer choices</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Key Questions -->
+        <div class="slide">
+            <h2>Questions</h2>
+            <p class="subtitle">In a market dominated by 6 expensive players...</p>
+            <ul>
+                <li>What alternatives do lawyers have?</li>
+                <li>Can general business tools serve legal needs?</li>
+                <li>How do you balance cost vs. legal-specific features?</li>
+                <li>How do you make smart technology choices?</li>
+            </ul>
+        </div>
+
+        <!-- Slide 7: Hands-On Activity -->
+        <div class="slide">
+            <h2>Hands-On Activity</h2>
+            <div class="activity-box">
+                <h3>Build your own client intake system</h3>
+                <div class="vs-comparison">
+                    <div class="price-tag">$20/month<br><small>General Tool</small></div>
+                    <div class="vs">VS</div>
+                    <div class="price-tag">$79/month<br><small>Legal Platform</small></div>
+                </div>
+                <p style="font-size: 1.2em; margin-top: 20px;">
+                    <strong>Decide:</strong> What trade-offs matter for different firms?
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button id="prev-btn" onclick="previousSlide()">← Previous</button>
+        <button id="next-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = n;
+            
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+            
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                event.preventDefault();
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                previousSlide();
+            } else if (event.key === 'Home') {
+                showSlide(0);
+            } else if (event.key === 'End') {
+                showSlide(totalSlides - 1);
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
